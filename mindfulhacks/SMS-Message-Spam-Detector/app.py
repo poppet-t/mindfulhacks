@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.externals import joblib
+# from sklearn.externals import joblib
 
 
 app = Flask(__name__)
@@ -14,10 +14,11 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    df = pd.read_csv('spam.csv', encoding="ISO-8859-1")
-    df.drop(['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], axis=1, inplace=True)
+    df = pd.read_csv('./datasets/Mental-Health-Twitter.csv')
+    # df = pd.read_csv('./datasets/spam.csv', encoding="ISO-8859-1")
+    df.drop(['Unnamed: 0', 'post_id', 'post_created', 'user_id', 'followers', 'friends', 'favourites', 'statuses', 'retweets'], axis=1, inplace=True)
     # df['label'] = df['class'].map({'ham': 0, 'spam': 1})
-    df.rename(columns = {"v1": "label", "v2": "message"}, inplace = True)
+    df.rename(columns = {"post_text": "message"}, inplace = True)
     X = df['message']
     y = df['label']
     
